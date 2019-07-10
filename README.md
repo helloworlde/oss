@@ -39,7 +39,7 @@ And then will print url after success like below:
 
 ```bash
 Transfer Rate:100% TotalSize: 2M FinishedSize: 2M
-go.mod https://hellowoodes.oss-cn-beijing.aliyuncs.com/file.zip
+file.zip https://hellowoodes.oss-cn-beijing.aliyuncs.com/file.zip
 ```
 
 - Upload file to specify directory 
