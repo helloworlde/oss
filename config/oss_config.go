@@ -1,4 +1,4 @@
-package cmd
+package config
 
 type OssConfig struct {
 	EndPoint       string `valid:"required"`

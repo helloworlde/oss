@@ -1,4 +1,4 @@
-package cmd
+package util
 
 import (
 	"fmt"
@@ -10,7 +10,7 @@ import (
 )
 
 // 判断文件是否存在
-func isFileExist(path string) bool {
+func IsFileExist(path string) bool {
 	_, err := os.Stat(path)
 	if err != nil {
 		if os.IsExist(err) {
@@ -22,7 +22,7 @@ func isFileExist(path string) bool {
 }
 
 // 判断是否是文件夹
-func isDir(path string) bool {
+func IsDir(path string) bool {
 	fileInfo, err := os.Stat(path)
 	if err != nil {
 		return false
@@ -41,7 +41,7 @@ func getAbsolutePath(path string) string {
 }
 
 // 获取文件名
-func getFileName(path string) string {
+func GetFileName(path string) string {
 	fileInfo, err := os.Stat(path)
 	if err != nil {
 		return ""
@@ -54,7 +54,7 @@ const M = 1024 * 1024
 const G = M * 1024
 
 // 获取文件大小
-func getFileSize(size int64) interface{} {
+func GetFileSize(size int64) interface{} {
 
 	if size > G {
 		return fmt.Sprintf("%.2f", float64(size)/float64(G)) + "G"
@@ -64,7 +64,11 @@ func getFileSize(size int64) interface{} {
 	return fmt.Sprintf("%.2f", float64(size)/float64(K)) + "K"
 }
 
-func getDirFiles(dir string) []string {
+func GetDirFiles(dir string) []string {
+
+	if !IsDir(dir) {
+		return nil
+	}
 
 	files, err := ioutil.ReadDir(dir)
 	if err != nil {
@@ -74,10 +78,16 @@ func getDirFiles(dir string) []string {
 
 	var fileArray = make([]string, len(files))
 
-	i := 0
 	for _, file := range files {
-		fileArray[i] = dir + "/" + file.Name()
-		i++
+		if file.IsDir() {
+			subDir := GetDirFiles(dir + "/" + file.Name())
+			if subDir != nil {
+				fileArray = append(fileArray, subDir...)
+			}
+		} else {
+			fileArray = append(fileArray, dir+"/"+file.Name())
+		}
+
 	}
 
 	return fileArray

@@ -1,16 +1,17 @@
-package cmd
+package util
 
 import (
 	"fmt"
 	"github.com/aliyun/aliyun-oss-go-sdk/oss"
 	"os"
+	"oss/config"
 	"strconv"
 	"strings"
 )
 
 // 上传文件
-func UploadFile(ossPath string, localFilePath string, config OssConfig, bucket oss.Bucket) (string, string) {
-	name := getFileName(localFilePath)
+func UploadFile(ossPath string, localFilePath string, config config.OssConfig, bucket oss.Bucket) (string, string) {
+	name := GetFileName(localFilePath)
 
 	// 移除/替换多余的 /
 	objectName := strings.ReplaceAll(ossPath+"/"+name, "//", "/")
@@ -29,11 +30,11 @@ func UploadFile(ossPath string, localFilePath string, config OssConfig, bucket o
 }
 
 // 初始化 Bucket
-func initBucket(config OssConfig) *oss.Bucket {
-	endPoint := config.EndPoint
-	accessKeyId := config.AccessKeyId
-	accessSecretId := config.AccessSecretId
-	bucketName := config.BucketName
+func InitBucket(ossConfig config.OssConfig) *oss.Bucket {
+	endPoint := ossConfig.EndPoint
+	accessKeyId := ossConfig.AccessKeyId
+	accessSecretId := ossConfig.AccessSecretId
+	bucketName := ossConfig.BucketName
 
 	client, err := oss.New(endPoint, accessKeyId, accessSecretId)
 	if err != nil || client == nil {
@@ -58,7 +59,7 @@ func (listener *OssProgressListener) ProgressChanged(event *oss.ProgressEvent) {
 	switch event.EventType {
 	case oss.TransferDataEvent:
 		rate := strconv.FormatInt(event.ConsumedBytes*100/event.TotalBytes, 10) + "%"
-		fmt.Printf("\rTransfer Rate:%s TotalSize: %s FinishedSize: %-8s", rate, getFileSize(event.TotalBytes), getFileSize(event.ConsumedBytes))
+		fmt.Printf("\rTransfer Rate:%s TotalSize: %s FinishedSize: %-8s", rate, GetFileSize(event.TotalBytes), GetFileSize(event.ConsumedBytes))
 	default:
 	}
 }
