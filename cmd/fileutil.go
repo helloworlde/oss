@@ -2,6 +2,7 @@ package cmd
 
 import (
 	"fmt"
+	"io/ioutil"
 	"log"
 	"os"
 	"path/filepath"
@@ -61,4 +62,23 @@ func getFileSize(size int64) interface{} {
 		return fmt.Sprintf("%.2f", float64(size)/float64(M)) + "M"
 	}
 	return fmt.Sprintf("%.2f", float64(size)/float64(K)) + "K"
+}
+
+func getDirFiles(dir string) []string {
+
+	files, err := ioutil.ReadDir(dir)
+	if err != nil {
+		fmt.Println(err)
+		os.Exit(1)
+	}
+
+	var fileArray = make([]string, len(files))
+
+	i := 0
+	for _, file := range files {
+		fileArray[i] = dir + "/" + file.Name()
+		i++
+	}
+
+	return fileArray
 }

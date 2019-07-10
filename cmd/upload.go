@@ -38,6 +38,7 @@ var uploadCmd = &cobra.Command{
 	Run: func(cmd *cobra.Command, args []string) {
 		dir := cmd.Flag("directory").Value.String()
 		picture := cmd.Flag("picture").Value.String()
+		markdown := cmd.Flag("markdown").Value.String()
 
 		ossDir := ""
 
@@ -47,7 +48,7 @@ var uploadCmd = &cobra.Command{
 			ossDir = ossConfig.PicturePath
 		}
 
-		var files = [10]string{}
+		var files = make([]string, len(args))
 
 		length := len(args)
 		if length > 0 {
@@ -59,9 +60,8 @@ var uploadCmd = &cobra.Command{
 					os.Exit(1)
 				}
 				if isDir(filePath) {
-					//TODO 文件夹上传
-					fmt.Println("暂不支持上传文件夹")
-					os.Exit(1)
+					dirFiles := getDirFiles(filePath)
+					files = append(files, dirFiles...)
 				} else {
 					files[index] = filePath
 				}
@@ -72,12 +72,37 @@ var uploadCmd = &cobra.Command{
 
 		bucket := initBucket(ossConfig)
 
+		resultMap := make(map[string]string)
+
 		for _, path := range files {
 			if len(path) > 0 {
-				UploadFile(ossDir, path, ossConfig, *bucket)
+				localPath, url := UploadFile(ossDir, path, ossConfig, *bucket)
+				resultMap[localPath] = url
 			}
 		}
+
+		if markdown == "true" {
+			printInMarkdownFormat(resultMap)
+		} else {
+			printInTextPlain(resultMap)
+		}
+
 	},
+}
+
+func printInTextPlain(resultMap map[string]string) {
+	fmt.Println()
+	for k, v := range resultMap {
+		fmt.Printf("%s %s\n", k, v)
+	}
+}
+
+func printInMarkdownFormat(resultMap map[string]string) {
+	fmt.Println()
+	for path, url := range resultMap {
+		name := getFileName(path)
+		fmt.Printf("![%s](%s)\n", name, url)
+	}
 }
 
 func validateConfig() {
@@ -96,4 +121,5 @@ func init() {
 
 	uploadCmd.Flags().StringP("directory", "d", "", "Dictionary of upload file")
 	uploadCmd.Flags().BoolP("picture", "p", true, "Upload to Picture folder")
+	uploadCmd.Flags().BoolP("markdown", "m", false, "Print link as Markdown")
 }

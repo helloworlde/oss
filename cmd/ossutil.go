@@ -9,7 +9,7 @@ import (
 )
 
 // 上传文件
-func UploadFile(ossPath string, localFilePath string, config OssConfig, bucket oss.Bucket) {
+func UploadFile(ossPath string, localFilePath string, config OssConfig, bucket oss.Bucket) (string, string) {
 	name := getFileName(localFilePath)
 
 	// 移除/替换多余的 /
@@ -25,7 +25,7 @@ func UploadFile(ossPath string, localFilePath string, config OssConfig, bucket o
 
 	ossHost := config.Host
 
-	fmt.Printf("\nUpload file %s success, url is %s\n", localFilePath, ossHost+"/"+objectName)
+	return localFilePath, ossHost + "/" + objectName
 }
 
 // 初始化 Bucket
