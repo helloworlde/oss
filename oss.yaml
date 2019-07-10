@@ -1,0 +1,8 @@
+aliyun:
+  accessKeyId: YOUR_AK
+  accessSecretId: YOUR_SK
+  oss:
+    endPoint: YOUR_ENDPOINT
+    bucketName: YOUR_BUCKET
+    host: YOUR_HOST
+    picturePath: /picture
