@@ -3,7 +3,7 @@ package util
 import (
 	"fmt"
 	"github.com/asaskevich/govalidator"
-	"oss/config"
+	"github.com/helloworlde/oss/config"
 	"strings"
 )
 

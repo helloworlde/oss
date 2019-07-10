@@ -15,7 +15,7 @@ limitations under the License.
 */
 package main
 
-import "oss/cmd"
+import "github.com/helloworlde/oss/cmd"
 
 func main() {
 	cmd.Execute()

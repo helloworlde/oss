@@ -2,11 +2,11 @@ package cmd
 
 import (
 	"fmt"
+	"github.com/helloworlde/oss/config"
 	"github.com/mitchellh/go-homedir"
 	"github.com/spf13/cobra"
 	"github.com/spf13/viper"
 	"os"
-	"oss/config"
 )
 
 var cfgFile string

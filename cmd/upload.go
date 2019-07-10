@@ -3,9 +3,9 @@ package cmd
 import (
 	"errors"
 	"fmt"
+	"github.com/helloworlde/oss/util"
 	"github.com/spf13/cobra"
 	"os"
-	"oss/util"
 )
 
 // uploadCmd represents the upload command

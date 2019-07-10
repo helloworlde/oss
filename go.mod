@@ -1,4 +1,4 @@
-module oss
+module github.com/helloworlde/oss
 
 go 1.12
 

@@ -3,8 +3,8 @@ package util
 import (
 	"fmt"
 	"github.com/aliyun/aliyun-oss-go-sdk/oss"
+	"github.com/helloworlde/oss/config"
 	"os"
-	"oss/config"
 	"strconv"
 	"strings"
 )
