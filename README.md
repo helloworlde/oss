@@ -75,3 +75,7 @@ Upload folder is also support
 ```bash
 oss upload .idea/ -d idea
 ```
+
+## Document 
+
+[How to create a CLI tool](./doc/create-cli-tool.md)
