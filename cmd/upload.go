@@ -80,6 +80,6 @@ func init() {
 	rootCmd.AddCommand(uploadCmd)
 
 	uploadCmd.Flags().StringP("directory", "d", "", "Dictionary of upload file")
-	uploadCmd.Flags().BoolP("picture", "p", true, "Upload to Picture folder")
+	uploadCmd.Flags().BoolP("picture", "p", false, "Upload to Picture folder")
 	uploadCmd.Flags().BoolP("markdown", "m", false, "Print link as Markdown")
 }
