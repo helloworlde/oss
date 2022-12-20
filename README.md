@@ -6,6 +6,14 @@
 
 - Install
 
+For Go version 19:
+
+```bash
+go install github.com/helloworlde/oss@latest
+```
+
+For Go version 18 and before:
+
 ```bash
 go get github.com/helloworlde/oss
 ```
